@@ -1,44 +1,77 @@
 import pygame
 from pygame.locals import *
 from sys import exit
-from player import *
+from sight import *
+from background import *
+from npc_handler import *
 
-#inicializa componentes do pygame
-pygame.init()
+class Game:
+    def __init__(self):
+        #inicializa componentes do pygame
+        pygame.init()
 
-#dimensões da tela
-width = 640
-height = 480
+        #dimensões da tela
+        self.width = 640
+        self.height = 480
 
-#define layout e titulo do game
-janela = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Game TEST')
+        #define layout e titulo do game
+        self.janela = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption('Game TEST')
 
-#definindo fundo
-fundo = pygame.image.load('assets/bg.png').convert()
-#posição x do fundo
-posX_bg = 0.0
+        #controle de cenário
+        self.current_scenario = 0
+        self.npcs = NPC_Handler(self.janela)
+        
+        #imagens
+        self.sprites = pygame.sprite.Group()
+        self.sight = Sight(self.janela)
+        self.background = BackGround(self.janela)
+        pygame.mouse.set_visible(False)
 
-#sprites
-sprites = pygame.sprite.Group()
-bart = Bart()
-sprites.add(bart)
+    #================================================================
+    
+    def update(self):
+        #fecha o jogo se clicar no 'x'
+        for event in pygame.event.get():
+                self.sight.update(event)
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    keys = pygame.key.get_pressed()
 
-#laço principal
-while True:
-    #fecha o jogo se clicar no 'x'
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            exit()
-            
-    tecla = pygame.key.get_pressed()
-    if tecla[pygame.K_RIGHT]:
-            posX_bg -= 0.1
-    elif tecla[pygame.K_LEFT]:
-            posX_bg += 0.1
-            
-    janela.blit(fundo, (posX_bg, 0))
-    sprites.draw(janela)
-    sprites.update()
-    pygame.display.update()
+                    if(keys[pygame.K_LEFT]):
+                        self.current_scenario -= 1
+                    if(keys[pygame.K_RIGHT]):
+                        self.current_scenario += 1
+                        
+                    if(self.current_scenario < 0):
+                        self.current_scenario = 0
+                    elif(self.current_scenario > ( len(self.background.bg) - 1) ):
+                        self.current_scenario = len( self.background.bg ) - 1
+                    
+        self.sprites.update()
+        self.background.update( self.current_scenario )
+        self.npcs.update( self.current_scenario )
+        pygame.display.update()
+
+    #================================================================
+
+    def draw(self):
+        self.background.draw()
+        self.npcs.draw()
+        self.sprites.draw(self.janela)
+        self.sight.draw()
+
+    #================================================================
+        
+    def run(self):
+        while True:
+            self.update()
+            self.draw()
+
+#====================================================================
+
+if __name__ == '__main__':
+    game = Game()
+    game.run()
