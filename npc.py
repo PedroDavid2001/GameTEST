@@ -8,19 +8,30 @@ import pygame
 # 5 - TALK
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, body, face, janela):
+    def __init__(self, img_paths, janela):
         pygame.sprite.Sprite.__init__(self)
-        self.body = pygame.image.load(body)    # body sprites path
-        self.face = pygame.image.load(face)    # face sprites path
-        self.curr = 0
-        self.screen = janela
-        self.rect = self.body.get_rect()
-        self.rect.topleft = 100, 100
         
-    def update(self, x, y):
-        self.rect.topleft = x, y
-        return
-    
+        self.screen = janela
+        self.images = []
+        self.display_img = []
+        self.rects = []
+        
+        # Configura imagens
+        for i, path in enumerate(img_paths):
+            self.display_img.append(False)
+            self.images.append(pygame.image.load(path))
+            self.rects.append(self.images[i].get_rect())
+            self.rects[i].topleft = 100, 100
+        
+    def update(self, x, y, curr_imgs):
+        
+        #curr_imgs armazena as posicoes das imagens que devem ser exibidas
+        for value in curr_imgs:
+            self.display_img[value] = True
+            self.rects[value].topleft = x, y
+        
     def draw(self):
-        self.screen.blit( self.body, self.rect, None )
-        self.screen.blit( self.face, self.rect, None )
+        for i, display in enumerate(self.display_img):
+            if display is True:
+                self.screen.blit( self.images[i], self.rects[i], None)
+                self.display_img[i] = False     # Reseta o valor para garantir que nao repetira na proxima iteracao

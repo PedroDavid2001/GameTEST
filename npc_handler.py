@@ -6,13 +6,16 @@ class NPC_Handler(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self) 
             
         self.npcs = []
-        self.npcs.append([ 
-                          NPC('assets/Bart_Simpson.png', 'assets/Bart_Simpson.png', janela),
-                          NPC('assets/Marge_Simpson.png', 'assets/Marge_Simpson.png', janela) ])
-        self.npcs.append([ 
-                          NPC('assets/Homer_Simpson.png', 'assets/Homer_Simpson.png', janela) ])
-        self.npcs.append([ 
-                          NPC('assets/Marge_Simpson.png', 'assets/Marge_Simpson.png', janela) ])
+        paths = [ 'assets/Bart_Simpson.png', 'assets/Marge_Simpson.png', 'assets/Homer_Simpson.png' ]
+        self.npcs.append([
+                            NPC(paths, janela),
+                        ])
+        self.npcs.append([
+                            NPC(paths, janela),
+                        ])
+        self.npcs.append([
+                            NPC(paths, janela),
+                        ])
         self.curr_scen = 0
         
         
@@ -23,16 +26,16 @@ class NPC_Handler(pygame.sprite.Sprite):
             x = 100
             y = 100
             for npc in self.npcs[ 0 ]:
-                npc.update(x, y)
+                npc.update(x, y, [ 0 ])
                 x += 200
         elif current_scenario == 1:
             self.curr_scen = current_scenario
             for npc in self.npcs[ 1 ]:
-                npc.update(100, 100)
+                npc.update(100, 100, [ 1 ])
         elif current_scenario == 2:
             self.curr_scen = current_scenario
             for npc in self.npcs[ 2 ]:
-                npc.update(100, 100)
+                npc.update(100, 100, [ 2 ])
 
     def draw(self):
         for npc in self.npcs[ self.curr_scen ]:
