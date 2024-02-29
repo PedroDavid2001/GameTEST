@@ -8,13 +8,13 @@ class NPC_Handler(pygame.sprite.Sprite):
         self.npcs = []
         paths = [ 'assets/Bart_Simpson.png', 'assets/Marge_Simpson.png', 'assets/Homer_Simpson.png' ]
         self.npcs.append([
-                            NPC(paths, janela),
+                            NPC(paths, janela, 'up right right right right right right right right right down left left left left left left left left left'),
                         ])
         self.npcs.append([
-                            NPC(paths, janela),
+                            NPC(paths, janela, 'up right down left'),
                         ])
         self.npcs.append([
-                            NPC(paths, janela),
+                            NPC(paths, janela, 'up right down left'),
                         ])
         self.curr_scen = 0
         

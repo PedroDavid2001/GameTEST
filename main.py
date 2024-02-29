@@ -33,22 +33,22 @@ class Game:
     def update(self):
         #fecha o jogo se clicar no 'x'
         for event in pygame.event.get():
-                self.sight.update(event)
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                elif event.type == pygame.KEYDOWN:
-                    keys = pygame.key.get_pressed()
+            self.sight.update(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.KEYDOWN:
+                keys = pygame.key.get_pressed()
 
-                    if(keys[pygame.K_LEFT]):
-                        self.current_scenario -= 1
-                    if(keys[pygame.K_RIGHT]):
-                        self.current_scenario += 1
-                        
-                    if(self.current_scenario < 0):
-                        self.current_scenario = 0
-                    elif(self.current_scenario > ( len(self.background.bg) - 1) ):
-                        self.current_scenario = len( self.background.bg ) - 1
+                if(keys[pygame.K_LEFT]):
+                    self.current_scenario -= 1
+                if(keys[pygame.K_RIGHT]):
+                    self.current_scenario += 1
+                    
+                if(self.current_scenario < 0):
+                    self.current_scenario = 0
+                elif(self.current_scenario > ( len(self.background.bg) - 1) ):
+                    self.current_scenario = len( self.background.bg ) - 1
                     
         self.sprites.update()
         self.background.update( self.current_scenario )
