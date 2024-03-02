@@ -1,5 +1,11 @@
 import pygame
 
+# Constante da velocidade de movimento
+vel = 2.5
+
+# Constante de valor maximo do controle do movimento
+mv_ctrl_max = 2.5
+
 #INTERACTIONS TABLE
 # 1 - LOOK
 # 2 - TAKE
@@ -8,7 +14,7 @@ import pygame
 # 5 - TALK
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, img_paths, janela, move_set = ''):
+    def __init__(self, img_paths, janela, init_pos, move_set = ''):
         pygame.sprite.Sprite.__init__(self)
         self.screen = janela
         # Array de imagens do npc
@@ -28,9 +34,9 @@ class NPC(pygame.sprite.Sprite):
             self.display_img.append(False)
             self.images.append(pygame.image.load(path))
             self.rects.append(self.images[i].get_rect())
-            self.rects[i].center = 100, 100
+            self.rects[i].center = init_pos
         
-    def update(self, x, y, curr_imgs):
+    def update(self, curr_imgs):
         # Verifica colisoes
         self.collision()
         # curr_imgs armazena as posicoes das imagens que devem ser exibidas
@@ -41,7 +47,7 @@ class NPC(pygame.sprite.Sprite):
                 self.curr_mvmt = (self.curr_mvmt + 1) % len(self.movements)
                 self.move(value)
                 self.move_ctrl += 1
-            elif(self.move_ctrl == 6):
+            elif(self.move_ctrl >= mv_ctrl_max):
                 self.move_ctrl = 0
             else:
                 self.move_ctrl += 1
@@ -49,14 +55,14 @@ class NPC(pygame.sprite.Sprite):
     # Metodo que realiza movimento em um rect do npc. 
     # 'rct' se trata do indice do rect atual
     def move(self, rct):
-        if(self.movements[self.curr_mvmt] == 'up'):
-            self.rects[rct].move_ip(0, -5)
-        elif(self.movements[self.curr_mvmt] == 'down'):
-            self.rects[rct].move_ip(0, 5)
-        elif(self.movements[self.curr_mvmt] == 'left'):
-            self.rects[rct].move_ip(-5, 0)
-        elif(self.movements[self.curr_mvmt] == 'right'):
-            self.rects[rct].move_ip(5, 0)
+        if(self.movements[self.curr_mvmt] == 'w'):
+            self.rects[rct].move_ip(0, -vel)
+        elif(self.movements[self.curr_mvmt] == 's'):
+            self.rects[rct].move_ip(0, vel)
+        elif(self.movements[self.curr_mvmt] == 'a'):
+            self.rects[rct].move_ip(-vel, 0)
+        elif(self.movements[self.curr_mvmt] == 'd'):
+            self.rects[rct].move_ip(vel, 0)
             
     def collision(self):
         # Verifica colisao com mouse
