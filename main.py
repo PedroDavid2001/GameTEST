@@ -5,7 +5,7 @@ from sight import *
 from background import *
 from npc_handler import *
 from player import *
-from utils import *
+from utils import screen_width, screen_height
 
 class Game:
     def __init__(self):
@@ -57,9 +57,25 @@ class Game:
         self.player.draw()
         self.npcs.draw()
         self.sprites.draw(self.janela)
-        self.sight.draw()
+        self.sight.draw()    
+    #================================================================ 
+    def menu_loop(self):
+        self.background.update(0)
+        while True:
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    keys = pygame.key.get_pressed()  
+                    if(keys[pygame.K_RETURN]):
+                        return
+            self.background.draw()
+            
     #================================================================ 
     def run(self):
+        self.menu_loop()
         while True:
             self.update()
             self.draw()

@@ -1,14 +1,9 @@
 import pygame
-from utils import *
+from utils import velocity_scalling
+from player import *
 
-#INTERACTIONS TABLE
-# 1 - LOOK
-# 2 - TAKE
-# 3 - PUNCH / SLAP
-# 4 - AIM (WITH WEAPON)
-# 5 - TALK
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, img_paths, janela, init_pos, move_set = ''):
+    def __init__(self, img_paths : list[str], janela : pygame.Surface, init_pos, move_set = ''):
         pygame.sprite.Sprite.__init__(self)
         self.screen = janela
         # Pontos de vida do npc
@@ -34,7 +29,7 @@ class NPC(pygame.sprite.Sprite):
             self.rects.append(self.images[i].get_rect())
             self.rects[i].center = init_pos
     #================================================================    
-    def update(self, curr_imgs, player):
+    def update(self, curr_imgs : list[int], player : Player):
         # curr_imgs armazena as posicoes das imagens que devem ser exibidas
         for value in curr_imgs:
             self.display_img[value] = True
@@ -46,7 +41,7 @@ class NPC(pygame.sprite.Sprite):
     #================================================================            
     # Metodo que realiza movimento em um rect do npc. 
     # 'rct' se trata do indice do rect atual
-    def move(self, rct):
+    def move(self, rct : int):
         if(self.movements[self.curr_mvmt] == 'w'):
             self.rects[rct].move_ip(0, -self.vel)
         elif(self.movements[self.curr_mvmt] == 's'):
@@ -56,7 +51,7 @@ class NPC(pygame.sprite.Sprite):
         elif(self.movements[self.curr_mvmt] == 'd'):
             self.rects[rct].move_ip(self.vel, 0)
     #================================================================        
-    def collision(self, player):
+    def collision(self, player: Player):
         # Verifica colisao com mouse
         [x, y] = pygame.mouse.get_pos() # [0] = x, [1] = y
         for i, display in enumerate(self.display_img):

@@ -1,4 +1,5 @@
 import pygame
+from utils import *
 
 # Paths das imagens dos cenarios
 scn_1 = 'assets/bg1.png'
@@ -25,10 +26,10 @@ class BackGround(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = 0, 0
     #================================================================
-    def load_img(self, path):
-        return pygame.transform.scale( pygame.image.load(path), (1280, 720) )
+    def load_img(self, path : str):
+        return pygame.transform.scale( pygame.image.load(path), (screen_width, screen_height) )
     #================================================================
-    def update(self, current_scenario):
+    def update(self, current_scenario : int):
         self.image = self.bg[ current_scenario ]
     #================================================================
     def draw(self):

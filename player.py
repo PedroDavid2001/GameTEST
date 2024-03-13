@@ -1,5 +1,5 @@
 import pygame
-from utils import *
+from utils import velocity_scalling
 
 # Constante da velocidade de movimento
 vel = 3 * velocity_scalling()
@@ -12,7 +12,7 @@ left = ['assets/Bart_Simpson.png']
 atk = ['assets/Bart_Simpson_atk.png']
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, janela):
+    def __init__(self, janela : pygame.Surface):
         pygame.sprite.Sprite.__init__(self)
         self.screen = janela
         # Array de imagens do player
@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
         else:
             return False
     #================================================================  
-    def set_images(self, paths, index):
+    def set_images(self, paths : list[str], index : int):
         # Incrementa o contador de img sets
         self.img_qnt += 1
         for path in paths:
