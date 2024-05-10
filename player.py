@@ -5,10 +5,10 @@ from utils import velocity_scalling
 vel = 3 * velocity_scalling()
 
 idle = ['assets/Bart_Simpson.png']
-up = ['assets/Bart_Simpson.png']
-down = ['assets/Bart_Simpson.png']
-right = ['assets/Bart_Simpson.png']
-left = ['assets/Bart_Simpson.png']
+up = ['assets/Bart_Simpson_walk.png']
+down = ['assets/Bart_Simpson_walk.png']
+right = ['assets/Bart_Simpson_walk.png']
+left = ['assets/Bart_Simpson_walk.png']
 atk = ['assets/Bart_Simpson_atk.png']
 
 class Player(pygame.sprite.Sprite):

@@ -5,7 +5,7 @@ from sight import *
 from background import *
 from npc_handler import *
 from player import *
-from utils import screen_width, screen_height
+from utils import *
 
 class Game:
     def __init__(self):
@@ -19,13 +19,14 @@ class Game:
         pygame.display.set_caption('Game TEST')
         #controle de cenário, npc e player
         self.current_scenario = 0
-        self.npcs = NPC_Handler(self.janela)
+        self.npcs = NPC_Handler(self)
         self.player = Player(self.janela)
         #imagens
         self.sprites = pygame.sprite.Group()
         self.sight = Sight(self.janela)
         self.background = BackGround(self.janela)
         pygame.mouse.set_visible(False)
+        self.game_paused = True
     #================================================================
     def update(self):
         #fecha o jogo se clicar no 'x'
@@ -36,6 +37,9 @@ class Game:
                 exit()
             elif event.type == pygame.KEYDOWN:
                 keys = pygame.key.get_pressed()
+                # retorna para menu
+                if(keys[pygame.K_ESCAPE]):
+                   self.game_paused = True 
                 # Troca de cenario
                 if(keys[pygame.K_LEFT]):
                     self.current_scenario -= 1
@@ -60,25 +64,29 @@ class Game:
         self.sight.draw()    
     #================================================================ 
     def menu_loop(self):
-        self.background.update(0)
-        while True:
-            pygame.display.update()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                elif event.type == pygame.KEYDOWN:
-                    keys = pygame.key.get_pressed()  
-                    if(keys[pygame.K_RETURN]):
-                        return
-            self.background.draw()
-            
+        self.background.update(6)
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.KEYDOWN:
+                keys = pygame.key.get_pressed()  
+                if(keys[pygame.K_RETURN]):
+                    self.game_paused = False
+                    
+        self.background.draw()
+    #================================================================
+    def draw_text(self, txt: str, pos = (0, 0), color = [0,0,0], font: str = "Arial", font_size: int = 40):
+        self.janela.blit(create_text(txt, font, font_size, color), pos)
     #================================================================ 
     def run(self):
-        self.menu_loop()
         while True:
-            self.update()
-            self.draw()
+            if(self.game_paused is True):
+                self.menu_loop()
+            else:
+                self.update()
+                self.draw()
 #====================================================================
 if __name__ == '__main__':
     game = Game()
