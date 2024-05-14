@@ -2,6 +2,7 @@ import pygame
 from utils import velocity_scalling
 from player import *
 from main import Game
+from utils import draw_text
 
 class NPC(pygame.sprite.Sprite):
     def __init__(self, img_paths : list[str], game: Game, init_pos = (100, 100), move_set = ''):
@@ -60,10 +61,10 @@ class NPC(pygame.sprite.Sprite):
         for i, display in enumerate(self.display_img):
             if display is True:
                 if pygame.Rect.collidepoint(self.rects[i], pygame.mouse.get_pos()):
-                    self.game.janela.blit( self.images[2], self.rects[2], None)
+                    draw_text("mouse colidindo", self.position, (255,255,255))
                 elif pygame.Rect.colliderect(self.rects[i], player.get_rect()):
                     if(player.is_attacking() is True):
-                        self.game.draw_text("damage", self.position, (255,255,255))
+                        draw_text("damage", self.position, (255,255,255))
     #================================================================    
     def draw(self):
         # Percorre o array de booleans para encontrar quais estao settados para True

@@ -1,39 +1,22 @@
 import pygame
 from utils import *
 
-# Paths das imagens dos cenarios
-scn_1 = 'assets/bg1.png'
-scn_2 = 'assets/bg2.png'
-scn_3 = 'assets/bg3.png'
-scn_4 = 'assets/bg4.png'
-scn_5 = 'assets/bg5.png'
-scn_6 = 'assets/bg6.png'
-menu_bg = 'assets/menu_bg.png'
-
 class BackGround(pygame.sprite.Sprite):
-    def __init__(self, janela):
+    def __init__(self, janela : pygame.Surface, img_path : str, floor_path : str):
         pygame.sprite.Sprite.__init__(self) 
-        
-        self.bg = []
-        self.bg.append( self.load_img(scn_1) )
-        self.bg.append( self.load_img(scn_2) )
-        self.bg.append( self.load_img(scn_3) )
-        self.bg.append( self.load_img(scn_4) )
-        self.bg.append( self.load_img(scn_5) )
-        self.bg.append( self.load_img(scn_6) )
-        self.bg.append( self.load_img(menu_bg) )
-        
-        self.image = self.bg[0]
+        self.image = pygame.transform.scale( pygame.image.load(img_path), (screen_width, screen_height) )
+        self.floor = pygame.transform.scale( pygame.image.load(floor_path), (screen_width, screen_height / 3) )
         self.screen = janela
-        self.rect = self.image.get_rect()
-        self.rect.topleft = 0, 0
+        self.floor_rect = self.floor.get_rect()
+        self.floor_rect.center = [screen_width/2, screen_height*0.833]
     #================================================================
-    def load_img(self, path : str):
-        return pygame.transform.scale( pygame.image.load(path), (screen_width, screen_height) )
+    def update(self):
+        return
     #================================================================
-    def update(self, current_scenario : int):
-        self.image = self.bg[ current_scenario ]
+    def get_rect(self):
+        return self.floor_rect
     #================================================================
-    def draw(self):
-        self.screen.blit(self.image, self.rect, None)
+    def bg_draw(self):
+        self.screen.blit(self.image, (0,0), None)
+        self.screen.blit(self.floor, self.floor_rect, None)
     #================================================================

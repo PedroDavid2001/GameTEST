@@ -10,13 +10,13 @@ class NPC_Handler():
         self.npcs = []
         paths = [ 'assets/Bart_Simpson.png', 'assets/Marge_Simpson.png', 'assets/Homer_Simpson.png' ]
         self.npcs.append([
-                            NPC(paths, janela, [150, 250], npc1_mvmt),
+                            NPC(paths, janela, [150, 440], npc1_mvmt),
                         ])
         self.npcs.append([
-                            NPC(paths, janela, [100, 250], npc2_mvmt),
+                            NPC(paths, janela, [100, 440], npc2_mvmt),
                         ])
         self.npcs.append([
-                            NPC(paths, janela, [150, 250], npc3_mvmt),
+                            NPC(paths, janela, [150, 440], npc3_mvmt),
                         ])
         self.curr_scen = 0
     #================================================================
