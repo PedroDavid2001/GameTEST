@@ -50,7 +50,7 @@ class Player(pygame.sprite.Sprite):
             self.rects.append(self.images[index].get_rect())
             self.rects[index].center = [100, 480]
     #================================================================       
-    def update( self, floor : pygame.Rect ):
+    def update( self ):
         self.move_y = ''
         self.move_x = ''
         #for event in pygame.event.get():
@@ -71,19 +71,16 @@ class Player(pygame.sprite.Sprite):
             self.curr_action = 3
         else:
             self.curr_action = 0
-        self.move(floor)   
+        self.move()   
     #================================================================            
     # Metodo que realiza movimento em um rect do player. Tambem 
     # utilizado para verificar a posicao do player e verificar para 
     # quais lados ele pode se mover.
-    def move(self, floor : pygame.Rect ):
+    def move(self):
         # Movimentos verticais
         if(self.move_y == 'w'):
-            # Se a distancia entre a base do player e o topo do piso for 
-            # menor que 10, o player nao podera subir
-            if(self.get_rect().bottom - floor.top >= 10):
-                for x in range(0, self.img_qnt):
-                    self.rects[x].move_ip(0, -vel) 
+            for x in range(0, self.img_qnt):
+                self.rects[x].move_ip(0, -vel) 
         elif(self.move_y == 's'):
             for x in range(0, self.img_qnt):
                 self.rects[x].move_ip(0, vel)
