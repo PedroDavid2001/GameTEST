@@ -28,13 +28,17 @@ class Level(pygame.sprite.Sprite):
     def load_bg(self, path : str):
         self.bg = pygame.transform.scale( pygame.image.load(path), (screen_width, screen_height) )
     #================================================================
-    def load_npcs(self, lista_npcs : list):
+    def load_npcs(self, lista_npcs : list | None):
+        if lista_npcs is None:
+            return
         for npc in lista_npcs:
             self.lista_npc.append( NPC(npc[0], self.game, (npc[1],npc[2]), npc[3]) )
     #================================================================
-    def load_itens(self, lista_itens : list):
-        for npc in lista_itens:
-            self.lista_item.append( Item(npc[0], self.game,(npc[1],npc[2])) )
+    def load_itens(self, lista_itens : list | None):
+        if lista_itens is None:
+            return
+        for item in lista_itens:
+            self.lista_item.append( Item(item[0], self.game,(item[1],item[2]),item[3]) )
     #================================================================
     def update(self):
         for npc in self.lista_npc:
@@ -44,8 +48,9 @@ class Level(pygame.sprite.Sprite):
     #================================================================
     def draw(self):
         self.game.janela.blit(self.bg, (0,0), None)
-        for npc in self.lista_npc:
-            npc.draw()
         for item in self.lista_item:
             item.draw()
+        for npc in self.lista_npc:
+            npc.draw()
+        
     #================================================================

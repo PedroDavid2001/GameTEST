@@ -20,6 +20,6 @@ def create_text(txt: str, font: str, font_size: int, color):
     label = txt_font.render(txt, True, color)
     return label
 #================================================================ 
-def draw_text(txt: str, pos = (0, 0), color = [0,0,0], font: str = "Arial", font_size: int = 40):
+def draw_text(txt: str, pos = (0, 0), color = [0,0,0], font_size: int = 40, font: str = "Arial"):
     janela.blit(create_text(txt, font, font_size, color), pos)
 #================================================================ 

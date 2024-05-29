@@ -4,7 +4,6 @@ from sys import exit
 from sight import Sight
 from level_controller import *
 from consts import *
-from player import Player
 from utils import *
 
 class Game:
@@ -18,10 +17,9 @@ class Game:
         self.janela = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Game TEST')
         # configura as cenas do jogo
+        self.curr_level = 0
         self.levels = []
         self.load_levels()
-        # configura jogador
-        self.player = Player(self.janela)
         # imagens
         self.sprites = pygame.sprite.Group()
         self.sight = Sight(self.janela)
@@ -39,21 +37,18 @@ class Game:
                 keys = pygame.key.get_pressed()
                 # retorna para menu
                 if(keys[pygame.K_ESCAPE]):
-                   self.game_paused = True     
+                   self.game_paused = True    
         self.sprites.update()
-        for level in self.levels:
-            level.update()
-        self.player.update()
+        self.levels[self.curr_level].update()
         pygame.display.update()
     #================================================================
     def draw(self):
-        self.player.draw()
-        for level in self.levels:
-            level.draw()
+        self.levels[self.curr_level].draw()
         self.sprites.draw(self.janela)
         self.sight.draw() 
     #================================================================   
     def load_levels(self):
+        self.levels.append( Level(self, MAINMENU) )
         self.levels.append( Level(self, MCBEDROOM) )
     #================================================================ 
     def menu_loop(self):
@@ -66,10 +61,12 @@ class Game:
                 keys = pygame.key.get_pressed()  
                 if(keys[pygame.K_RETURN]):
                     self.game_paused = False
-                    #self.current_scenario = 1
+                    self.curr_level = 1
                 elif(keys[pygame.K_ESCAPE]):
                     pygame.quit()
                     exit()
+        self.levels[0].update()
+        self.levels[0].draw()
     #================================================================
     def run(self):
         while True:
